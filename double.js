@@ -4,23 +4,17 @@
  * licensed under http://creativecommons.org/licenses/by/3.0
  * more on http://haggen.github.com/double
  */
-;(function($, undefined) {
-  $.fn['double'] = function() { 
-    if(!this._double) {
-      this._original = this.clone(true);
-      this._double   = this.clone(true);
-
-      this.replaceWith(this._double);
-    }
-
-    return this._double;
+(function( $ ){
+  $.fn.saveState = function() {  
+    return this.each(function() {
+      var $this = $(this);
+      $this.data( '_original', $this.clone(true) );
+    });
   };
-
-  $.fn.recall = function() {
-    if(this._double) {
-      this._double.replaceWith(this._original);
-      delete this._double;
-      return this;
-    }
+  $.fn.recallState = function() {
+  	return this.each(function() {
+      var $this = $(this);
+      $this.replaceWith( $this.data( '_original' ) );
+    });	
   };
-}(window.jQuery));
+})( jQuery );
